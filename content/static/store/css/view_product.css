@@ -1,0 +1,142 @@
+.content-product {
+    display: flex;
+    width: 75%;
+    height: 80%;
+    margin: auto;
+    margin-top: 15rem;
+    padding: 10px;
+    
+}
+
+.info-product {
+    width: 100%;
+    height: 480px;
+    margin-left: 1.3rem;
+}
+
+
+
+.info-img {
+    margin: 0 1.8rem;
+    width: 500px;
+    height: 500px;
+
+}
+
+.info-img img {
+    max-width: 450px;
+    background-color: #d6d3d3b5;
+
+}
+
+p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.topic-list {
+    padding-top: 2rem;
+    padding-left: 3rem;
+    font-size: 0.85rem;
+}
+
+.topic1 {
+    font-size: 0.9rem;
+}
+
+.info-measure {
+    display: flex;
+    margin-bottom: 1.2rem;
+}
+
+.info-measure .form-control {
+    width: 20%;
+}
+
+.measure-table {
+    padding-top: 0.5rem;
+    padding-left: 0.8rem;
+    font-size: 0.95rem;
+    text-decoration: underline;
+}
+
+.form-custom {
+    margin-bottom: 2rem;
+}
+
+.form-custom .form-control {
+    width: 20%;
+    border-color: #cccbcb;
+}
+
+.form-custom .btn {
+    font-size: 0.9rem;
+    background-color: #101010ed;
+    border-color: black;
+    margin: 0 0.7rem !important;
+    width: 50%;
+}
+
+.form-custom .btn:hover {
+    transition: 1s;
+    background-color: #151515dd;
+}
+
+#small-images-container {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.small-image {
+    width: 70px;
+    height: auto;
+    margin-right: 10px;
+    background-color: #d6d3d3b5;
+}
+
+.small-image:hover {
+    box-shadow: 0 0 5px rgba(46, 46, 46, 0.3);
+}
+
+.form-frete .form-control {
+    width: 35%;
+    border-color: #000;
+}
+
+.form-frete .btn {
+    font-size: 0.9rem;
+    background-color: var(--body-bg2);
+    border-color: rgb(119, 118, 118);
+    margin: 0 0.5rem !important;
+    width: 20%;
+}
+
+.form-frete .btn-primary {
+    color: #000;
+}
+
+.form-frete .btn-primary:hover {
+    transition: 1s;
+    background-color: #000;
+    color: #fff;
+}
+
+h6 {
+    font-size: 1.4rem;
+    margin-top: 0.1rem;
+    margin-bottom: 2rem;
+}
+
+.info-add{
+    width: 75%;
+    margin: auto;
+    margin-top: 10rem;
+}
+
+.info-add h6{
+    margin-bottom: 3rem;
+}
+
+.description{
+    min-height: 200px;
+}

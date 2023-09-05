@@ -1,0 +1,55 @@
+.dark-mode:root {
+    --body-bg: #121212;
+    --body-color: #fff;
+    --body-bg2: #aeaeae;
+    --btn-color: #fff;
+    --btn-bg-hover: #fff;
+    --btn-color-hover: #1a1e24;
+}
+
+:root {
+    --body-bg: #fff;
+    --body-color: #000;
+    --btn-bg: #ffffffda;
+    --body-bg2: #eee;
+    --body-card: #aeaeae;
+    --btn-bg-hover: #fff;
+    --btn-color-hover: #aeaeae;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+body {
+    background-color: var(--body-bg2) !important;
+
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.container-main {
+    padding-top: 150px;
+    margin-bottom: 4rem;
+}
+
+form label {
+    font-size: 0.8rem;
+    color: #353434;
+}
+
+.mynav {
+    position: fixed;
+    z-index: 900;
+}
+
+.sidebar,
+.sidebar.open {
+    z-index: 1000;
+}

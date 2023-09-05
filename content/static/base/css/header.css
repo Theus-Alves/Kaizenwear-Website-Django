@@ -1,0 +1,243 @@
+.mynav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 140px;
+    background-color: var(--body-bg);
+}
+
+
+.banner-logo {
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 350px;
+
+}
+
+.content-nav .mynavbar {
+    list-style-type: none;
+    display: inline-flex;
+    color: var(--body-color);
+    font-size: 0.95rem;
+}
+
+.content-nav .mynavbar li {
+    margin-right: 2rem;
+    color: var(--body-color);
+}
+
+.content-nav {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+
+.img-logo {
+    margin-top: 2rem;
+    margin-bottom: 0.6rem;
+    width: 100%;
+}
+
+.icon-search svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: var(--body-color);
+}
+
+.icon-container {
+    position: fixed;
+    top: 2rem;
+    right: 2.3rem;
+}
+
+.icon-theme {
+    position: fixed;
+    top: 2rem;
+    left: 1.5rem;
+}
+
+
+#loginBtn {
+    text-decoration: none !important;
+    color: var(--body-color);
+    font-size: 1.05rem;
+    position: fixed;
+    top: 5.7rem;
+    left: 1.5rem;
+    height: 1.6rem;
+    display: flex;
+}
+
+#loginBtn svg {
+    margin-bottom: 5px;
+}
+
+.mybtn-login {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.mybtn-login:hover {
+    background-color: #d2d1d1e0;
+    color: #000;
+}
+
+.dark-mode .mybtn-login {
+    background-color: #343333;
+    color: #fff;
+}
+
+.dark-mode .mybtn-login:hover {
+    background-color: #3e3d3d;
+
+}
+
+#btn-login:hover {
+    background-color: #f0f0f0;
+}
+
+.dark-mode #btn-login:hover {
+    background-color: #353434;
+}
+
+
+#btn-login {
+    background-color: var(--body-bg);
+    color: var(--body-color);
+}
+
+
+.bag {
+    position: fixed;
+    top: 5.7rem;
+    right: 0.2rem;
+}
+
+.nmrCart {
+    position: fixed;
+    text-align: center;
+    top: 6.25rem;
+    right: 2.55rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--body-bg);
+}
+
+.icon-whats {
+    width: 60px;
+    height: 60px;
+    background-color: #000000;
+    border-radius: 30px;
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+}
+
+.icon-whats svg {
+    color: #fff;
+    margin: 0.96rem 0.95rem;
+}
+
+/* estilização do icone de temas dark e ligth*/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4f4e4e;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.fa-moon-o {
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: 35.5px;
+    bottom: 0px;
+    color: #000000;
+}
+
+.fa-sun-o {
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: 10px;
+    bottom: 0px;
+    color: #000000;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked+.slider {
+    background-color: #5c5a5a;
+}
+
+/* input:focus + .slider {
+    box-shadow: 0 0 1px #ffffff;
+  } */
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    background-color: #fff;
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+html::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(0deg,
+            #828282 0%,
+            rgb(62, 64, 64) 100%);
+}
+
+html::-webkit-scrollbar {
+    width: 12px;
+    background: linear-gradient(0deg,
+            #828282(16, 113, 255) 0%,
+            rgb(62, 64, 64) 100%);
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: #fff;
+}
+
+#logodisc {
+    width: 25px;
+    height: 25px;
+}

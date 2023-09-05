@@ -1,0 +1,191 @@
+.footer-arrow {
+
+    float: left;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+
+}
+
+.footer-arrow svg {
+
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 30px;
+    background-color: var(--secundary-color);
+
+}
+
+.footer-arrow .shape-fill {
+
+    fill: #f4f4f4;
+    ;
+
+}
+
+.main_footer {
+
+    background-color: #1d1c1c;
+    color: #fff;
+    font-size: 1em;
+}
+
+.main_footer .content {
+    float: left;
+    width: 80%;
+    margin: 0 10%;
+    padding: 5em 0;
+}
+
+.mycontainer {
+    float: left;
+    width: 100%;
+}
+
+.colfooter {
+
+    width: 100%;
+    height: auto;
+    float: left;
+    margin-bottom: 2em;
+}
+
+.colfooter ul {
+    width: 100%;
+    float: left;
+}
+
+.colfooter ul li {
+    padding: 0.2em 0em;
+}
+
+.colfooter ul li a {
+    color: #ffffff;
+    font-size: 1em;
+    transition: 0.2s;
+}
+
+.colfooter ul li a i {
+    font-size: 0.5em;
+}
+
+.colfooter ul li a:hover {
+    text-decoration: white;
+}
+
+.colfooter .titleFooter {
+
+    font-size: 1.3em;
+    color: #ffffff;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px #f0f0f0 solid;
+
+}
+
+.colfooter p {
+
+    color: #ffffff;
+    font-size: 1em;
+    height: 25px;
+
+}
+
+.colfooter .redesocial {
+
+    color: #ffffff;
+    float: left;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: 0.2s;
+
+}
+
+.colfooter .redesocial:hover {
+
+    color: #fffb00;
+    transition: 0.2s;
+
+}
+
+
+.main_footer_copy {
+    background-color: #f4f4f4;
+    width: 100%;
+    float: left;
+    text-align: center;
+    padding: 1.5em 0em;
+}
+
+.main_footer_copy p {
+    font-size: 1em;
+    color: #000000;
+    height: 20px;
+}
+
+.main_footer_copy .m-b-footer {
+    margin-bottom: 0.5em;
+}
+
+.main_footer_copy .by {
+    font-size: 0.96em;
+}
+
+.main_footer_copy .by a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.main_footer_copy .by a:hover {
+    text-decoration: underline;
+    color: #fffb00
+}
+
+.main_footer_copy .by i {
+    font-size: 0.96em;
+    margin-right: 3px;
+    color: #e82626;
+}
+
+/*Responsivo*/
+/*768PX BREAKPOINT*/
+@media (min-width:48em) {
+
+    .colfooter {
+        width: 30%;
+        margin-right: 5%;
+        margin-bottom: 0;
+    }
+
+    .colfooter:nth-of-type(3n+0) {
+        margin-right: 0;
+        border-right: 0;
+    }
+
+    .footer-arrow svg {
+        height: 50px;
+    }
+
+}
+
+/*960PX BREAKPOINT*/
+@media (min-width:60em) {
+
+    .footer-arrow svg {
+        height: 70px;
+    }
+
+}
+
+/*1280PX BREAKPOINT*/
+@media (min-width:80em) {
+
+    .footer-arrow svg {
+        height: 90px;
+    }
+
+}

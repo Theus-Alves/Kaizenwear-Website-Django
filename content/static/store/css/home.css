@@ -1,0 +1,114 @@
+.container-main h2 {
+    font-size: 1.5rem;
+}
+
+.product-section {
+    width: 70%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}
+
+h2 {
+    padding-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.4rem !important;
+}
+
+
+.mycard {
+
+    text-align: center;
+    padding-bottom: 1rem;
+    color: black;
+
+}
+
+.mycard img:hover {
+    box-shadow: 0 0 5px rgba(46, 46, 46, 0.3);
+    /* Sombra ao passar o mouse */
+}
+
+.mycard img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+
+
+}
+
+.mycard h3 {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.mycard p {
+    font-size: 14px;
+}
+
+
+#img-test {
+    background-color: #d6d3d3b5;
+}
+
+
+/* Dispositivos pequenos */
+@media (max-width: 767px) {
+
+    /* Estilos para dispositivos pequenos */
+    #product-section {
+
+
+        width: 93%;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+    }
+
+
+}
+
+/* Dispositivos médios */
+@media (min-width: 768px) and (max-width: 991px) {
+
+    /* Estilos para dispositivos médios */
+    #product-section {
+
+
+        width: 90%;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+    }
+}
+
+/* Dispositivos grandes */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    /* Estilos para dispositivos grandes */
+    #product-section {
+
+        width: 87%;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px;
+    }
+
+    .mycard h3 {
+        font-size: 14px;
+    }
+
+    .mycard p {
+        font-size: 14px;
+    }
+
+}
+
+/* Dispositivos extra grandes */
+@media (min-width: 1200px) and (max-width: 1999px) {
+    /* Estilos para dispositivos extra grandes */
+}
+
+@media (min-width: 2000px) {
+    /* Estilos para dispositivos ultrawides */
+}

@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block title %}Kaizenwear - Auth {% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'users/css/auth.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/register.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-main">
+    <div class="pills">
+        <button class="pill-button active" onclick="showContent('content1')">Entrar</button>
+        <button class="pill-button" onclick="showContent('content2')">Registrar</button>
+    </div>
+
+    <div class="content" id="content1">
+        {% include 'users/login.html' %}
+    </div>
+    <div class="content" id="content2" style="display: none;">
+        {% include 'users/register.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'users/js/auth.js' %}"></script>
+{% endblock %}

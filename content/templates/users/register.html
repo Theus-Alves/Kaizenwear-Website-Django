@@ -1,0 +1,57 @@
+<form action="{% url 'auth' %}" class="myform" method="POST">{% csrf_token %}
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="firstName">Nome</label>
+            <input type="text" class="form-control" name="first_name">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="lastName">Sobrenome</label>
+            <input type="text" class="form-control" name="last_name">
+        </div>
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <label for="form1Example1">Endereço de e-mail</label>
+        <input type="email" id="form1Example1" class="form-control" name="email" />
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <label for="form1Example2">Senha</label>
+        <input type="password" id="form1Example2" class="form-control" name="password" />
+    </div>
+    <div class="form-outline mb-4">
+        <label for="form1Example2">Repetir Senha</label>
+        <input type="password" id="form1Example2" class="form-control" name="confirmPassword" />
+    </div>
+
+
+    <label style="font-size: 0.9rem;">
+        Ao criar uma conta, você concorda com a <a href="{% url 'policy' %}" target="_blank">
+            <u style="text-decoration: underline;">Política de Privacidade</u></a> e com
+        os <a href="{% url 'terms' %}" target="_blank"><u style="text-decoration: underline;">Termos de uso</u></a> da
+        Kaizenwear.com.br
+    </label>
+
+
+    <!-- Submit button -->
+    <button name="formRegister" type="submit" class="mybtn btn btn-dark">CRIAR CONTA</button>
+
+    <div class="or-container">
+        <div class="line-separator"></div>
+        <div class="or-label">or</div>
+        <div class="line-separator"></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#"><img
+                    src="https://img.icons8.com/color/16/000000/google-logo.png">Registrar com Google</a>
+
+        </div>
+    </div>
+
+</form>

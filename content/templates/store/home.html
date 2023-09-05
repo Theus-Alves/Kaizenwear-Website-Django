@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Keizenwear{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'store/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/footer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="container-main">
+    <h2>SHOP ALL</h2>
+    <section id="product-section" class="product-section">
+
+
+        {% if products %}
+        {% for product in products %}
+        <a href="{% url 'view_product' product_id=product.id %}" style="text-decoration: none;">
+            <div class="mycard">
+                <img id="img-test" class="hover-image" src="{{ product.image_front.url }}" alt="Image Product">
+                <h3>{{ product.name }}</h3>
+                <p>R$ {{ product.price|floatformat:2 }}</p>
+            </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+     
+
+    </section>
+
+    {% block scripts %}
+    <script src="{% static 'store/js/home.js' %}"></script>
+    {% endblock %}
+</main>
+
+
+{% include 'base/footer.html' %}
+
+{% endblock %}

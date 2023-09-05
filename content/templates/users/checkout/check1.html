@@ -1,0 +1,34 @@
+<form id="myform" class="form-personal">
+    <div class="form-group">
+
+        <h6 class="mylabel" for="exampleInputEmail1">Informações de contato</h6>
+
+        <label for="form1Example1">Endereço de e-mail</label>
+        <input type="email" id="form1Example1" class="form-control" name="email" value="{{ user.email }}"
+            name="email" />
+        <small id="emailHelp" class="form-text text-muted">Nunca vamos compartilhar seu email, com ninguém.</small>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="firstName">Nome</label>
+            <input type="text" class="form-control disabled-input" id="firstName" value="{{ user.first_name }}"
+                name="first_name">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="lastName">Sobrenome</label>
+            <input type="text" class="form-control" id="lastName" value="{{ user.last_name }}" name="last_name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputcpf">CPF/CNPJ</label>
+        <input type="text" class="form-control" id="inputcpf" value="{{ client.cpf }}" name="cpf">
+    </div>
+    <div class="form-group">
+        <label for="inputtel">Telefone</label>
+        <input type="text" class="form-control" id="inputtel" value="{{ client.phone_number }}" name="phone_number">
+    </div>
+
+    <button onclick="nextContent(2)" type="button" class="mybtn btn btn-dark">PRÓXIMO</button>
+
+</form>

@@ -1,0 +1,179 @@
+.content {
+    width: 60%;
+    margin: auto;
+}
+
+.pills {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.pill-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    width: 15%;
+    border-radius: 1px;
+}
+
+.pill-button.active {
+    background-color: #ccc;
+}
+
+.myform {
+    width: 50%;
+    margin: auto;
+    margin-top: 3rem;
+}
+
+.mybtn {
+    width: 100%;
+    margin: 1.3rem 0;
+}
+
+
+.btn-google {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd;
+    font-size: 0.9rem;
+}
+
+.btn-google img {
+    width: 1.1rem;
+    margin-right: 1rem;
+}
+
+
+.or-container {
+    align-items: center;
+    color: #ccc;
+    display: flex;
+    margin: 1rem 0;
+}
+
+.line-separator {
+    background-color: #ccc;
+    flex-grow: 5;
+    height: 1px;
+}
+
+.or-label {
+    flex-grow: 1;
+    margin: 0 15px;
+    text-align: center;
+}
+
+input {
+    background-color: #faf7f7e0 !important;
+}
+
+
+/* Dispositivos muito pequenos */
+@media (max-width: 400px) {
+    .content {
+        width: 90%;
+
+    }
+
+    .myform {
+        width: 100%;
+    }
+
+    .pill-button {
+        width: 45%;
+    }
+
+
+    .form-check .label-conected,
+    a {
+        font-size: 10px;
+    }
+}
+
+/* Dispositivos pequenos */
+@media (min-width:401px) and (max-width: 767px) {
+
+    /* Estilos para dispositivos pequenos */
+    .myform {
+        width: 100%;
+    }
+
+    .content {
+        width: 70%;
+        margin: auto;
+    }
+
+
+    .pill-button {
+        width: 35%;
+    }
+
+
+    .form-check .label-conected,
+    a {
+        font-size: 12px;
+    }
+
+
+}
+
+
+/* Dispositivos médios */
+@media (min-width: 768px) and (max-width: 991px) {
+
+
+
+    /* Estilos para dispositivos médios */
+    .myform {
+        width: 85%;
+    }
+
+
+    .pill-button {
+        width: 25%;
+    }
+
+    .form-check .label-conected,
+    a {
+        font-size: 14px;
+    }
+
+
+}
+
+/* Dispositivos grandes */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    /* Estilos para dispositivos grandes */
+    .myform {
+        width: 77%;
+    }
+
+
+    .pill-button {
+        width: 23%;
+    }
+
+    .form-check .label-conected,
+    a {
+        font-size: 15px;
+    }
+
+
+}
+
+/* Dispositivos extra grandes */
+@media (min-width: 1200px) and (max-width: 1999px) {
+
+    /* Estilos para dispositivos extra grandes */
+
+
+}
+
+@media (min-width: 2000px) {
+    /* Estilos para dispositivos ultrawides */
+}

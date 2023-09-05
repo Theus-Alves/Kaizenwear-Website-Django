@@ -1,0 +1,91 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Produto x - Keizenwear{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'store/css/view_product.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/footer.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="content-product">
+    <div class="info-product info1" style="order: 1;">
+        <h6 class="name-product">{{ product.name }} - Kaizen Collection</h5>
+            <p class="topic1">EXCLUSIVAMENTE NO SITE - POSTAGEM EM ATÉ 7 DIAS ÚTEIS APÓS A CONFIRMAÇÃO DE PAGAMENTO</p>
+
+            <ul class="topic-list">
+                <li>Caimento despojado e estilozo</li>
+                <li>Costuras reforçadas para maior durabilidade</li>
+                <li>Feita em quantidade limitada</li>
+                <li>Garantia contra defeitos de fabricação</li>
+                <li>Possui etiquetas especiais</li>
+                <li>Produzido no Brasil</li>
+                <li>Qualidade impecável</li>
+                <li>Tecido confortável, macio e aromatizado</li>
+            </ul>
+            <hr>
+            <p>Composição: 100% algodão</p>
+            <p>Modelagem: Unissex</p>
+            <br>
+            <p>{{ product.0 }} - Coleção Clássicas</p>
+    </div>
+
+    <div class="info-product info-img" style="order: 2;">
+        <img class="product-img" id="large-image" src="{{ product.image_front.url }}" alt="Imagem Ampliada">
+    </div>
+    <div class="info-product info-2" style="order: 3;">
+        <h6 class="price-product"><b>R$ {{ product.price|floatformat:2 }}</b></h6>
+
+        <div class="info-measure">
+            <select class="form-control">
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>GG</option>
+            </select>
+            <p class="measure-table">TABELA DE MEDIDAS</p>
+        </div>
+
+        <p>QUANTIDADE</p>
+
+        <form action="#" class="form-inline form-custom" id="buy-form">
+            <input type="number" class="form-control" id="qtd_items" placeholder="1" value="1">
+            <button id="btnBuy" type="button" class="btn btn-primary mb-2"
+                data-productid="{{ product_id }}">COMPRAR</button>
+        </form>
+
+
+        <div id="small-images-container">
+            <img class="small-image" src="{{ product.image_front.url }}" data-large="{{ product.image_front.url }}"
+                alt="Imagem 1">
+            <img class="small-image" src="{{ product.image_back.url }}" data-large="{{ product.image_back.url }}"
+                alt="Imagem 2">
+        </div>
+
+        <p>INSIRA SEU CEP</p>
+        <form class="form-inline form-frete">
+            <input type="text" class="form-control" id="inputFrete" placeholder="00000-000">
+            <button type="button" class="btn btn-primary mb-2">OK</button>
+        </form>
+
+    </div>
+
+</main>
+
+<div class="info-add">
+    <hr>
+    <h6>Informações Adicionais</h6>
+    <p class="description">{{ product.description }}</p>
+</div>
+
+{% include 'base/footer.html' %}
+
+
+{% block scripts %}
+<script src="{% static 'store/js/view_product.js' %}"></script>
+
+{% endblock %}
+
+{% endblock %}

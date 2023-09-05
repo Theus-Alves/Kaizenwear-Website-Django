@@ -1,0 +1,210 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Meu Perfil - Kaizenwear{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'users/css/procfile.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+{% endblock %}
+
+{% block content %}
+
+<main class="container-main">
+    <a class="btn-voltar" href="{% url 'home' %}">
+        <i class="bi bi-arrow-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+        </i>
+    </a>
+
+    
+
+
+    <div class="container">
+        <form id="form1" action="{% url 'procfile' %}" method="POST">
+
+            {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+            <h6> Informações Pessoais </h6>
+            <div class="form-group">
+                <label for="form1Example1">Endereço de e-mail</label>
+                <input type="email" id="form1Example1" class="form-control disabled-input" name="email" disabled
+                    value="{{ user.email }}" name="email" />
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstName">Nome</label>
+                    <input type="text" class="form-control disabled-input" id="firstName" disabled
+                        value="{{ user.first_name }}" name="first_name">
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastName">Sobrenome</label>
+                    <input type="text" class="form-control disabled-input" id="lastName" disabled
+                        value="{{ user.last_name }}" name="last_name">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputcpf">CPF/CNPJ</label>
+                <input type="text" class="form-control disabled-input" id="inputcpf" disabled value="{{ client.cpf }}"
+                    name="cpf">
+
+            </div>
+            <div class="form-group">
+                <label for="inputtel">Telefone</label>
+                <input type="text" class="form-control disabled-input" id="inputtel" disabled
+                    value="{{ client.phone_number }}" name="phone_number">
+
+            </div>
+
+              
+
+            <!-- Password input -->
+
+            <button id="btnForm1" class="btn btn-primary mb-2 btn-dark btn-edit">Editar Informações</button>
+
+            <div id="button-container1" style="display: none; justify-content: space-between;">
+                <button name="formInfo" id="btnSave1" class="btn btn-primary mb-2 btn-dark btn-edit">Salvar
+                    Alterações</button>
+                <button id="btnCancel1" class="btn btn-primary mb-2 btn-dark btn-edit"
+                    style="background-color: red; border: 0;">Cancelar</button>
+            </div>
+
+            
+
+        </form>
+
+        <form id="savePassword" action="{% url 'procfile' %}" method="POST">
+            {% csrf_token %}
+
+            <hr>
+            <h6>Alterar Senha</h6>
+            <div class="form-row">
+
+                <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Senha Atual</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="*******" name="password"> 
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Nova Senha</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="*******" name="new_password">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Repetir Senha</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="*******" name="repeated_password">
+                </div>
+            
+
+                <div id="buttonContainer">
+                    <button name="formPassword" id="btnSavePassword" class="btn btn-primary mb-2 btn-dark btn-edit">Salvar</button>
+                    <div class="spinner-border spinner-border-sm d-none" role="status"></div>
+                    <div class="spinner-grow spinner-grow-sm d-none" role="status"></div>
+                </div>
+                <div style="display: none;" class="alert alert-success" role="alert">
+                    Dados alterados com sucesso!
+                </div>
+                
+            </div>
+           
+           
+
+        </form>
+
+
+        <form action="{% url 'procfile' %}" id="form2" method="POST">
+            {% csrf_token %}
+
+            <hr>
+            <h6> Informações de Endereço </h6>
+
+            <div class="form-group">
+                <label for="inputCEP">CEP</label>
+                <input type="text" class="form-control" id="inputCEP" disabled value="{{ address.cep }}" name="cep">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <label for="logradouro">Rua</label>
+                    <input type="text" class="form-control" value="{{ address.street }}" disabled name="street">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="numero">Número</label>
+                    <input type="text" class="form-control" value="{{ address.number }}" disabled name="number">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" class="form-control" value="{{ address.district }}" disabled name="district">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="complemento">Complemento</label>
+                    <input type="text" class="form-control" value="{{ address.complement }}" disabled name="complement">
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" disabled value="{{ address.city }}" name="city">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="estado">Estado</label>
+                    <select id="estado" class="form-control select-address" disabled name="state">
+                        <option selected>{{ address.state }}</option>
+                        <option>Espirito Santo</option>
+                        <option>Minas Gerais</option>
+                        <option>Rio de Janeiro</option>
+                        <option>São Paulo</option>
+                        <option>...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pais">País</label>
+                <select id="pais" class="form-control select-address" disabled name="country">
+                    <option selected>{{ address.country }}</option>
+                    <option>Brasil</option>
+                    <option>...</option>
+                </select>
+            </div>
+
+            <button id="btnForm2" class="btn btn-primary mb-2 btn-dark btn-edit">Editar Informações</button>
+
+
+            <div id="button-container2" style="display: none; justify-content: space-between;">
+                <button name="formAddress" id="btnSave2" class="btn btn-primary mb-2 btn-dark btn-edit">Salvar
+                    Alterações</button>
+                <button id="btnCancel2" class="btn btn-primary mb-2 btn-dark btn-edit"
+                    style="background-color: red; border: 0;">Cancelar</button>
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+
+
+
+</main>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'users/js/procfile.js' %}"></script>
+{% endblock %}

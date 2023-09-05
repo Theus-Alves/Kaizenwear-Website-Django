@@ -1,0 +1,78 @@
+<form id="myform" class="form-address">
+
+    <label class="mylabel" for="inputEmail4">Endereço para entrega</label>
+    <br>
+    <div class="form-row">
+        <div class="form-group col-md-8">
+            <label for="inputCEP">CEP</label>
+            <input type="text" class="form-control" id="inputCEP" value="{{ address.cep }}" name="cep">
+        </div>
+        <div class="form-group col-md-4">
+            <input class="btn btn-cep" type="button" value="Buscar">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-8">
+            <label for="logradouro">Rua</label>
+            <input type="text" class="form-control" value="{{ address.street }}" name="street">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="numero">Número</label>
+            <input type="text" class="form-control" value="{{ address.number }}" name="number">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="bairro">Bairro</label>
+            <input type="text" class="form-control" value="{{ address.district }}" name="district">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="complemento">Complemento</label>
+            <input type="text" class="form-control" value="{{ address.complement }}" name="complement">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-5">
+            <label for="cidade">Cidade</label>
+            <input type="text" class="form-control" id="cidade" value="{{ address.city }}" name="city">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="estado">Estado</label>
+            <select id="estado" class="form-control select-address" name="state">
+                <option selected>{{ address.state }}</option>
+                <option>Espirito Santo</option>
+                <option>Minas Gerais</option>
+                <option>Rio de Janeiro</option>
+                <option>São Paulo</option>
+                <option>...</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="pais">País</label>
+            <select id="pais" class="form-control select-address" name="country">
+                <option selected>{{ address.country }}</option>
+                <option>Brasil</option>
+                <option>...</option>
+            </select>
+        </div>
+        <div class="form-group" style="margin-left: 1.5rem;">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+                Salvar minhas informações para a próxima vez
+            </label>
+
+        </div>
+
+    </div>
+    <button id="btn-final" onclick="nextContent(3)" type="button" class="mybtn btn btn-dark">PRÓXIMO</button>
+    <button type="submit" class="btn-voltar" onclick="previousContent()">
+        <i class="bi bi-arrow-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="32" fill="currentColor" class="bi bi-arrow-left"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+        </i></button>
+</form>
