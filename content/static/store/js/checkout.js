@@ -234,3 +234,54 @@ btnFinal.addEventListener('click', () => {
 });
 
 
+
+function makeOrder(cartItems) {
+    fetch('/order/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'), // Certifique-se de incluir o token CSRF se necessário
+        },
+        body: JSON.stringify({ 'cartItems': cartItems }) // Enviando como objeto JSON com chave 'cartItems'
+    })
+        .catch(error => {
+            console.error('Erro ao enviar solicitação:', error);
+        });
+}
+
+
+
+
+function requestOrder(cartItems) {
+
+    fetch('/add_cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cartItems)
+    })
+        .then(response => response.json())
+        .then(data => {
+
+            const cartItems = data.Cart;
+
+            makeOrder(cartItems);
+
+        })
+        .catch(error => {
+            console.error('Erro ao enviar solicitação:', error);
+        });
+}
+
+btnPay.addEventListener('click', (event) => {
+
+    event.preventDefault();
+
+    var cartItems = localStorage.getItem('cartItems');
+
+    makeOrder(cartItems);
+
+});
+
+

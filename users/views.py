@@ -248,8 +248,29 @@ def client_orders(request):
     return render(request, 'users/client_orders.html')
 
 
+@csrf_exempt
 def order(request):
-    return render(request, 'users/order.html')
+    if request.method == 'GET':
+        return render(request, 'users/order.html')
+
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            # Receba a lista de itens do carrinho
+            cartItems = data.get('cartItems', [])
+
+            # Agora você pode aplicar sua lógica aqui com a lista de itens do carrinho (cartItems)
+
+            # Exemplo: Calcular o total do carrinho
+            total = sum(item.get('price', 0) for item in cartItems)
+
+            # Exemplo de resposta JSON
+            response_data = {'success': True, 'total': total}
+
+            return JsonResponse(response_data)
+
+        except Exception as e:
+            response_data = {'error': str(e)}
 
 
 def policy(request):

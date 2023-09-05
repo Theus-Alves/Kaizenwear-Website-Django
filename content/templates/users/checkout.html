@@ -73,13 +73,12 @@
             <span>BRL <b style="font-size: 1.3rem;" class="total">R$ 00,00</b></span>
         </div>
 
-        <a href="{% url 'order' %}" disabled id="btnPay" type="submit" class="btn btn-primary mb-2 btn-dark btn-pay"
-            style="color: #fff;">Ir para
+        <button disabled name="formPay" id="btnPay" type="submit" class="btn btn-primary mb-2 btn-dark btn-pay">Ir para
             Pagamento</a>
 
 
-        {% block scripts %}
-        <script src="{% static 'store/js/checkout.js' %}"></script>
-        {% endblock %}
+            {% block scripts %}
+            <script src="{% static 'store/js/checkout.js' %}"></script>
+            {% endblock %}
 
-        {% endblock %}
+            {% endblock %}

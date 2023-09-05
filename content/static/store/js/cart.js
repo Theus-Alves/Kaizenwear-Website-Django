@@ -53,9 +53,18 @@ clearCartLink.addEventListener('click', (event) => {
     const restantCart = document.querySelector('.restant-cart');
     const containerCart = document.querySelector('.container-cart');
 
+    let numberCart = localStorage.getItem('contadorCart');
+    const contador = document.querySelector('.contador-cart');
+
+    contador.innerHTML = 0;
+    numberCart = 0;
+    localStorage.setItem('contadorCart', numberCart);
+
+
     containerCart.innerHTML = '';
     restantCart2.style.display = 'block';
     restantCart.style.display = 'none';
+
 
 
 });
@@ -114,12 +123,13 @@ function decrement(button) {
 
 
 
-function remove(button) {
+function remove(event, button) {
+
+    event.preventDefault();
 
     const productId = button.getAttribute("data-productid");
     const cartItemsJSON = localStorage.getItem('cartItems');
     let cartItems = cartItemsJSON ? JSON.parse(cartItemsJSON) : [];
-
 
     const existingItemIndex = cartItems.findIndex(item => item.id === productId);
 
@@ -128,10 +138,19 @@ function remove(button) {
         cartItems.splice(existingItemIndex, 1);
         const updatedCartItemsJSON = JSON.stringify(cartItems);
         localStorage.setItem('cartItems', updatedCartItemsJSON);
-        // Atualize a exibição do carrinho após remover o item
+
+        // Verifique se o carrinho está vazio
+        if (cartItems.length === 0) {
+
+            let numberCart = localStorage.getItem('contadorCart');
+            numberCart = 0;
+            localStorage.setItem('contadorCart', numberCart);
 
 
-        updateCart(cartItems);
+        }
     }
 
+    updateCart(cartItems);
 }
+
+

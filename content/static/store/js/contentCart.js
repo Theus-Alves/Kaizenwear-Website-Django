@@ -6,19 +6,6 @@ function loadContent(cartItems, totalCart, CurrentCart) {
     const ContentTotal = document.querySelector('.total')
 
 
-    //Verifique se o localStorage está vazio
-    if (localStorage.getItem('cartItems') === null) {
-        // A chave 'cartItems' não existe no localStorage ou está vazia
-        productTemplate.innerHTML = '';
-        restantCart2.style.display = 'block';
-        restantCart.style.display = 'none';
-        containerCart.style.display = 'none';
-        ContentTotal.style.display = 'none';
-
-        return;
-    }
-
-
     // Limpar o conteúdo existente da barra lateral do carrinho
     productTemplate.innerHTML = '';
     restantCart2.style.display = 'none';
@@ -27,10 +14,12 @@ function loadContent(cartItems, totalCart, CurrentCart) {
     ContentTotal.style.display = 'block';
 
 
-    cartItems.forEach((product) => {
-        const newProductDiv = document.createElement('div');
-        newProductDiv.classList.add('product');
-        newProductDiv.innerHTML = `
+
+    if (cartItems) {
+        cartItems.forEach((product) => {
+            const newProductDiv = document.createElement('div');
+            newProductDiv.classList.add('product');
+            newProductDiv.innerHTML = `
             <div class="pre-content">
                 <h5>${product.name}</h5>
             </div>
@@ -48,18 +37,18 @@ function loadContent(cartItems, totalCart, CurrentCart) {
                         <input type="number" class="number-input input-cart" value="${product.qtd}" disabled>
                         <button class="control-button" onclick="increment(event, this)" data-productid="${product.id}">+</button>
                     </div>
-                    <a onclick="remove(this)" data-productid="${product.id}" id="btn-remover" href="#">REMOVER</a> 
+                    <a onclick="remove(event, this)" data-productid="${product.id}" id="btn-remover" href="#">REMOVER</a> 
                 </div>
             </div>
         `;
 
-        // Crie o elemento <hr> após a div do produto
-        const hrElement = document.createElement('hr');
-        hrElement.classList.add('hr-product');
+            // Crie o elemento <hr> após a div do produto
+            const hrElement = document.createElement('hr');
+            hrElement.classList.add('hr-product');
 
-        productTemplate.appendChild(newProductDiv);
-        productTemplate.appendChild(hrElement);
-        ContentTotal.innerHTML = `
+            productTemplate.appendChild(newProductDiv);
+            productTemplate.appendChild(hrElement);
+            ContentTotal.innerHTML = `
         <div class="total">
             <h5>Total</h5>
             <p"><strong>R$ ${(totalCart).toFixed(2).replace('.', ',')}</strong></p>
@@ -68,13 +57,23 @@ function loadContent(cartItems, totalCart, CurrentCart) {
         `;
 
 
+            const contador = document.querySelector('.contador-cart');
+            contador.innerHTML = CurrentCart;
+            const contadorCart = 'contadorCart';
+
+            localStorage.setItem(contadorCart, CurrentCart);
+
+        });
+    } else {
+        productTemplate.innerHTML = '';
+        restantCart2.style.display = 'block';
+        restantCart.style.display = 'none';
+        containerCart.style.display = 'none';
+        ContentTotal.style.display = 'none';
+
         const contador = document.querySelector('.contador-cart');
-        contador.innerHTML = CurrentCart;
-        const contadorCart = 'contadorCart';
-
-        localStorage.setItem(contadorCart, CurrentCart);
-
-    });
+        contador.innerHTML = 0;
+    }
 
 }
 
