@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <title>Document</title>
+</head>
+
+<body>
+    <section class="h-100 h-custom" style="background-color: #f0f0f0; margin-top: 5rem;">
+
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-8">
+                                    <div class="p-5">
+                                        <a href="{% url 'home' %}"
+                                            style="font-size: 1.1rem; text-decoration: underline; color: #000;">Voltar
+                                            ao site</a>
+                                        <br><br>
+                                        <h4 style="color: green;">Pedido #C4P0154 Realizado com sucesso"</h4>
+
+                                        Itens:
+
+                                        <div class="products-order">
+                                            <ul class="list-group list-group-flush listCheck">
+                                                {% for item in products %}
+                                                <li class="list-group-item mylist"
+                                                    style="display: flex; align-items: center;">
+                                                    <div style="flex: 0 0 auto;">
+                                                        <img width="60px" src="{{ item.image_front }}"
+                                                            alt="{{ item.name }}"
+                                                            style="background-color: #f0f0f0; margin-right: 2rem;">
+                                                    </div>
+
+                                                    <div class="info-product" style="flex: 1;">
+                                                        <p style="margin: 0;">{{ item.name }}</p>
+                                                        <div class="info">
+                                                            <span>R$ {{ item.subtotal|floatformat:"2" }}</span>
+
+                                                        </div>
+                                                        <span style="color: #6d6d6d;">{{ item.size }}</span>
+                                                    </div>
+
+                                                    <span
+                                                        style="height: 1.35rem; color: #fff; background-color: #3b3c3b; margin-top: 1rem;"
+                                                        class="badge badge-primary badge-pill">{{ item.qtd }}un.</span>
+                                                </li>
+                                                <hr>
+                                                {% endfor %}
+                                                <h5>Total do Pedido: R$ {{ total|floatformat:"2" }}</h5>
+                                            </ul>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </section>
+
+
+</body>
+
+</html>

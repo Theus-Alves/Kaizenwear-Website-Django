@@ -1,0 +1,47 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Meus Pedidos - Kaizenwear{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'users/css/orders.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="container-main">
+
+    <h1>Meus Pedidos</h1>
+
+    <div class="container-order">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action" style="display: flex; align-items: center;">
+
+                <div style="flex: 0 0 auto;">
+                    <img width="60px" src="../../../media/img-1.png" alt="{{ item.name }}"
+                        style="background-color: #f0f0f0; margin-right: 2rem;">
+                </div>
+
+                <div class="info-product" style="flex: 1;">
+                    <H6 style="margin: 0; font-size: 1.3rem;">Camiseta Kaizenwear Azul</H6>
+                    <p style="color: rgba(226, 61, 39, 0.933); margin-top: 1rem;">Aguardando pagamento</p>
+
+
+
+
+            </li>
+
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+
+
+    </div>
+
+</main>
+
+
+{% endblock %}

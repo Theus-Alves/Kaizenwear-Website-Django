@@ -7,7 +7,7 @@ const buyBtn = document.querySelector('#btnBuy');
 
 buyBtn.addEventListener('click', (event) => {
     event.stopPropagation();
-    event.preventDefault
+    event.preventDefault();
 
     // Acessar os dados do produto
     const productId = document.getElementById("btnBuy").getAttribute("data-productid");

@@ -1,0 +1,15 @@
+h1 {
+    font-size: 1.5rem;
+    color: #404040b4;
+    margin: 1rem 15rem;
+    margin-top: 2rem;
+}
+
+.container-order {
+    width: 74.5%;
+    min-height: 500px;
+    background-color: #ffffff8c;
+    margin: auto;
+    border-radius: 5px;
+
+}

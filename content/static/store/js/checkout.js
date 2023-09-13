@@ -194,7 +194,7 @@ btnFinal.addEventListener('click', () => {
 
 
     infoAddress.innerHTML = `
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush listCheck">
         <li class="list-group-item mylist">
             <span class="title-check">CEP</span>
             <span class="value-check">${cep_adsress}</span>
@@ -234,54 +234,53 @@ btnFinal.addEventListener('click', () => {
 });
 
 
-
-function makeOrder(cartItems) {
-    fetch('/order/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken'), // Certifique-se de incluir o token CSRF se necessário
-        },
-        body: JSON.stringify({ 'cartItems': cartItems }) // Enviando como objeto JSON com chave 'cartItems'
-    })
-        .catch(error => {
-            console.error('Erro ao enviar solicitação:', error);
-        });
+function togoOrder() {
+    const btnPayForm = document.querySelector('#btnPayForm');
+    btnPayForm.submit();
 }
 
 
-
-
-function requestOrder(cartItems) {
-
-    fetch('/add_cart/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cartItems)
-    })
-        .then(response => response.json())
-        .then(data => {
-
-            const cartItems = data.Cart;
-
-            makeOrder(cartItems);
-
-        })
-        .catch(error => {
-            console.error('Erro ao enviar solicitação:', error);
-        });
-}
 
 btnPay.addEventListener('click', (event) => {
-
     event.preventDefault();
 
+    // Obtenha o carrinho atualizado do localStorage
     var cartItems = localStorage.getItem('cartItems');
 
-    makeOrder(cartItems);
+    if (cartItems) {
+        var cartItemsObj = JSON.parse(cartItems);
 
+        fetch('/add_cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-By': 'btnPay' // Adicione um cabeçalho personalizado
+            },
+            body: JSON.stringify(cartItemsObj)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Verifique o valor de orderPlaced no objeto data
+                if (data.orderPlaced === true) {
+                    console.log('Ordem colocada com sucesso.');
+
+                    localStorage.removeItem('cartItems');
+                    localStorage.removeItem('contadorCart');
+
+                    togoOrder();
+
+                } else {
+                    console.log('Erro ao criar a ordem.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao enviar solicitação:', error);
+            });
+    }
 });
+
+
+
+
 
 

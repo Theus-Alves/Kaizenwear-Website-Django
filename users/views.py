@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import Client, Address, Product
+from .models import Client, Address, Product, Order
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt
 import json
+from datetime import date
 
 
 full_navbar = True
+order_current = dict()
 
 
 def auth(request):
@@ -175,12 +177,28 @@ def procfile(request):
             return redirect('procfile')
 
 
+def setnewOrder(cartItems):
+    global order_current
+
+    if order_current:
+        order_current.clear()
+
+    cartCopy = dict(cartItems)
+    order_current = cartCopy
+
+
 @csrf_exempt
 def add_cart(request):
     if request.method == 'POST':
         try:
+            isPay = False
             # Obtenha os dados JSON da solicitação POST
             data = json.loads(request.body)
+
+            # Verifique o valor do parâmetro personalizado 'source'
+            if 'HTTP_X_REQUESTED_BY' in request.META and request.META['HTTP_X_REQUESTED_BY'] == 'btnPay':
+                # solicitação foi feita pelo botão "btnPay"
+                isPay = True
 
             # Crie um dicionário para rastrear as quantidades dos produtos
             cart_dict = {}
@@ -238,39 +256,83 @@ def add_cart(request):
             response_data = {'Cart': cart_result,
                              'Total': total_cart, 'numberCart': number_cart}
 
+            orderPlaced = False
+            setnewOrder(response_data)
+
+            if isPay:
+                for item in cart_result:
+                    product_name = item['name']
+                    product_id = Product.objects.get(id=item['id'])
+                    total_units_sold = item['qtd']
+                    total_amount = item['subtotal']
+                    user_id = request.user.id  # Obtenha o ID do usuário autenticado
+
+                    try:
+                        # Obtenha uma instância válida do modelo User com base no ID
+                        user = User.objects.get(pk=user_id)
+
+                        # Substitua 1 pelo ID do produto real que você deseja associar ao pedido
+                        product_id = 1
+
+                        try:
+                            # Certifique-se de obter uma instância válida de Product
+                            product = Product.objects.get(pk=product_id)
+
+                            new_order = Order.objects.create(
+                                product_name=product_name,
+                                product_id=product,
+                                total_units_sold=total_units_sold,
+                                total_amount=total_amount,
+                                user=user,
+                            )
+
+                            new_order.save()
+                            orderPlaced = True
+
+                        except Product.DoesNotExist:
+                            print(
+                                "O produto com o ID especificado não foi encontrado.")
+
+                        except User.DoesNotExist:
+                            print("O usuário autenticado não foi encontrado.")
+
+                        except Exception as e:
+                            print(f"Ocorreu um erro: {str(e)}")
+                            return JsonResponse({'error': str(e)}, status=400)
+
+                    except Exception as e:
+                        print(f"Ocorreu um erro: {str(e)}")
+                        return JsonResponse({'error': str(e)})
+
+            # Adicione orderPlaced ao response_data
+            response_data['orderPlaced'] = orderPlaced
+
             return JsonResponse(response_data)
-        except Exception as e:
-            response_data = {'error': str(e)}
-            return JsonResponse(response_data, status=400)
-
-
-def client_orders(request):
-    return render(request, 'users/client_orders.html')
-
-
-@csrf_exempt
-def order(request):
-    if request.method == 'GET':
-        return render(request, 'users/order.html')
-
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            # Receba a lista de itens do carrinho
-            cartItems = data.get('cartItems', [])
-
-            # Agora você pode aplicar sua lógica aqui com a lista de itens do carrinho (cartItems)
-
-            # Exemplo: Calcular o total do carrinho
-            total = sum(item.get('price', 0) for item in cartItems)
-
-            # Exemplo de resposta JSON
-            response_data = {'success': True, 'total': total}
-
-            return JsonResponse(response_data)
 
         except Exception as e:
-            response_data = {'error': str(e)}
+            print(f"Ocorreu um erro: {str(e)}")
+            return JsonResponse({'error': str(e)})
+
+
+def orders(request):
+    return render(request, 'users/orders.html')
+
+
+def newOrder(request):
+    global order_current
+
+    cart_items = order_current.get('Cart', [])
+    total = order_current.get('Total', 0)
+    total_items = order_current.get('numberCart', 0)
+
+    # Crie um novo dicionário com as variáveis que você deseja passar para o template
+    context = {
+        'products': cart_items,
+        'total': total,
+        'total_items': total_items
+    }
+
+    return render(request, 'users/newOrder.html', context)
 
 
 def policy(request):
@@ -283,19 +345,24 @@ def terms(request):
 
 def checkout(request):
 
-    client = None
-    address = None
-    full_navbar = False
+    if request.method == 'GET':
 
-    if request.user.is_authenticated:
-        try:
-            client = Client.objects.get(user=request.user)
-        except Client.DoesNotExist:
-            client = None
+        client = None
+        address = None
+        full_navbar = False
 
-        try:
-            address = Address.objects.get(user=request.user)
-        except Address.DoesNotExist:
-            address = None
+        if request.user.is_authenticated:
+            try:
+                client = Client.objects.get(user=request.user)
+            except Client.DoesNotExist:
+                client = None
 
-    return render(request, 'users/checkout.html', {'client': client, 'address': address, 'full_navbar': full_navbar})
+            try:
+                address = Address.objects.get(user=request.user)
+            except Address.DoesNotExist:
+                address = None
+
+        return render(request, 'users/checkout.html', {'client': client, 'address': address, 'full_navbar': full_navbar})
+
+    elif request.method == 'POST':
+        return redirect('newOrder')

@@ -12,11 +12,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class ProductStock(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    
+
     SIZE_CHOICES = (
         ('P', 'P'),
         ('M', 'M'),
@@ -28,9 +28,6 @@ class ProductStock(models.Model):
 
     def __str__(self):
         return f"{self.product} - {self.size}"
-
-
-
 
 
 class Address(models.Model):
@@ -65,7 +62,7 @@ class Order(models.Model):
     total_units_sold = models.IntegerField()
     total_amount = models.FloatField()
     order_date = models.DateField(auto_now_add=True)
-    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Pedido de {self.client_id} - {self.product_name}"
+        return f"Pedido de {self.user} - {self.product_name}"
