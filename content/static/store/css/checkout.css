@@ -87,12 +87,23 @@ div {
     box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
+.container-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centraliza horizontalmente */
+    max-width: 100%;
+    /* Define a largura máxima para 100% do pai */
+}
+
+
 .mybar-progress {
     width: 50%;
     height: 0.3rem;
     margin: auto;
     margin-top: 2rem;
     background-color: #aeaeae;
+    position: relative;
 
 }
 
@@ -104,12 +115,11 @@ div {
 }
 
 .progress-number {
-    width: 37.8%;
+    width: 39%;
     display: flex;
     justify-content: space-between;
     position: absolute;
-    left: 18.5%;
-    top: 18%;
+    top: 10.5rem;
 }
 
 .progress-number .progress-step {

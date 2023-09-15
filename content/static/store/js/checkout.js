@@ -247,6 +247,7 @@ btnPay.addEventListener('click', (event) => {
     // Obtenha o carrinho atualizado do localStorage
     var cartItems = localStorage.getItem('cartItems');
 
+
     if (cartItems) {
         var cartItemsObj = JSON.parse(cartItems);
 
@@ -267,18 +268,101 @@ btnPay.addEventListener('click', (event) => {
                     localStorage.removeItem('cartItems');
                     localStorage.removeItem('contadorCart');
 
+
                     togoOrder();
+                    sendDataToDjango();
+
 
                 } else {
-                    console.log('Erro ao criar a ordem.');
+
+                    console.log('mandar email')
+                    var url = "/send_email";
+
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                            // Adicione quaisquer outros cabeçalhos necessários aqui
+                        }
+                    })
+                        .then(response => {
+                            localStorage.removeItem('cartItems');
+                            localStorage.removeItem('contadorCart');
+                            togoOrder();
+
+                        })
+                        .catch(error => {
+                            console.error("Erro na solicitação GET:", error);
+                        });
                 }
-            })
-            .catch(error => {
-                console.error('Erro ao enviar solicitação:', error);
+
             });
+
     }
+
 });
 
+
+function sendDataToDjango() {
+    const form1 = document.querySelector('#myform1');
+    const form2 = document.querySelector('#myform2');
+
+    // Capture os valores dos campos do formulário 1
+    const email = form1.querySelector("[name='email']").value;
+    const firstName = form1.querySelector("[name='first_name']").value;
+    const lastName = form1.querySelector("[name='last_name']").value;
+    const cpf = form1.querySelector("[name='cpf']").value;
+    const phone = form1.querySelector("[name='phone_number']").value;
+
+    // Capture os valores dos campos do formulário 2
+    const cep = form2.querySelector("[name='cep']").value;
+    const street = form2.querySelector("[name='street']").value;
+    const number = form2.querySelector("[name='number']").value;
+    const district = form2.querySelector("[name='district']").value;
+    const complement = form2.querySelector("[name='complement']").value;
+    const city = form2.querySelector("[name='city']").value;
+    const state = form2.querySelector("[name='state']").value;
+    const country = form2.querySelector("[name='country']").value;
+
+    // Crie um objeto com os dados a serem enviados para o Django
+    const data = {
+        form1Data: {
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+            cpf: cpf,
+            phone_number: phone,
+        },
+        form2Data: {
+            cep: cep,
+            street: street,
+            number: number,
+            district: district,
+            complement: complement,
+            city: city,
+            state: state,
+            country: country,
+        },
+    };
+
+    // Enviar dados para o Django via AJAX
+    fetch("/update_data/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            // Adicione quaisquer outros cabeçalhos necessários aqui
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => response.json())
+        .then((responseData) => {
+            // Trate a resposta do Django, se necessário
+            console.log(responseData);
+        })
+        .catch((error) => {
+            console.error("Erro ao enviar solicitação:", error);
+        });
+}
 
 
 

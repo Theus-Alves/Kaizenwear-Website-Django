@@ -55,10 +55,14 @@ form {
 
 }
 
-.alert {
+#myalert {
     height: 2.4rem;
     font-size: 0.9rem;
-    margin-left: 2rem;
+    background-color: #07680ea0;
+    color: #fff;
+    border: 0;
+    width: 30%;
+    margin-left: 23rem;
 
 }
 

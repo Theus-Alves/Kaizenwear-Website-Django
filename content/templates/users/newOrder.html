@@ -24,7 +24,7 @@
                                             style="font-size: 1.1rem; text-decoration: underline; color: #000;">Voltar
                                             ao site</a>
                                         <br><br>
-                                        <h4 style="color: green;">Pedido #C4P0154 Realizado com sucesso"</h4>
+                                        <h4 style="color: green;">Pedido Realizado com sucesso"</h4>
 
                                         Itens:
 
@@ -52,8 +52,9 @@
                                                         style="height: 1.35rem; color: #fff; background-color: #3b3c3b; margin-top: 1rem;"
                                                         class="badge badge-primary badge-pill">{{ item.qtd }}un.</span>
                                                 </li>
-                                                <hr>
+
                                                 {% endfor %}
+                                                <br><br>
                                                 <h5>Total do Pedido: R$ {{ total|floatformat:"2" }}</h5>
                                             </ul>
                                         </div>

@@ -14,32 +14,102 @@
 
     <h1>Meus Pedidos</h1>
 
+    {% if orders %}
     <div class="container-order">
         <ul class="list-group list-group-flush">
+            {% for order in orders %}
             <li class="list-group-item list-group-item-action" style="display: flex; align-items: center;">
-
                 <div style="flex: 0 0 auto;">
-                    <img width="60px" src="../../../media/img-1.png" alt="{{ item.name }}"
-                        style="background-color: #f0f0f0; margin-right: 2rem;">
+                    {% for order_item in order.orderitem_set.all %}
+                    {% if forloop.counter == 1 %}
+                    <img width="100px" src="{{ order_item.product.image_front.url }}"
+                        alt="{{ order_item.product.name }}" style="background-color: #f0f0f0; margin-right: 0.5rem;">
+                    {% endif %}
+                    {% endfor %}
+                    {% if order.orderitem_set.count > 1 %}
+                    <button type="button" class="btn btn-primary img-product-popup" data-toggle="modal"
+                        data-target="#exampleModalCenter_{{ order.id }}">
+                        +{{ order.orderitem_set.count|add:"-1" }}
+                    </button>
+                    {% else %}
+                    <button type="button" class="btn btn-primary img-product-popup" data-toggle="modal"
+                        data-target="#exampleModalCenter_{{ order.id }}">
+                        <i class="bi bi-caret-up-square">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                class="bi bi-collection" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z" />
+                            </svg>
+                        </i>
+                    </button>
+                    {% endif %}
+
+
                 </div>
 
                 <div class="info-product" style="flex: 1;">
-                    <H6 style="margin: 0; font-size: 1.3rem;">Camiseta Kaizenwear Azul</H6>
-                    <p style="color: rgba(226, 61, 39, 0.933); margin-top: 1rem;">Aguardando pagamento</p>
-
-
-
-
+                    <H6 style="margin: 5px 0; font-size: 1.3rem;">Pedido {{ order.order_number }}</H6>
+                    <p style="margin: 0;">
+                        {{ user.client.fullname }}
+                    </p>
+                    <p>
+                        {{ user.address.address_complet }}
+                    </p>
+                    <p style="color: rgba(226, 61, 39, 0.933); margin-top: 1rem;">{{ order.get_status_display }}</p>
+                </div>
             </li>
 
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
+            <!-- Modal específico para cada pedido -->
+            <div class="modal fade" id="exampleModalCenter_{{ order.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle_{{ order.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle_{{ order.id }}">Detalhes do
+                                Pedido:<span>{{order.order_number}}</span>
+                            </h5>
+
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                        </div>
+                        <div class="modal-body">
+                            <!-- Adicione o conteúdo específico do modal aqui -->
+                            {% for order_item in order.orderitem_set.all %}
+                            <img width="100px" src="{{ order_item.product.image_front.url }}"
+                                alt="{{ order_item.product.name }}"
+                                style="background-color: #f0f0f0; margin-right: 0.5rem;">
+
+                            {% endfor %}
+                            <hr>
+                            {% for order_item in order.orderitem_set.all %}
+                            <p style="padding-bottom: 1px;">
+                                <span>{{ order_item.product.name }} - [ {{ order_item.size }} ]</span>
+                                <span>{{order_item.quantity }}un.</span>
+                                <strong>R$ {{ order_item.subtotal|floatformat:2 }}</strong>
+                            </p>
+
+                            {% endfor %}
+                            <hr>
+                            <p>Total do pedido: <strong>R$ {{ order.total_value|floatformat:2 }}</strong> </p>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </ul>
-
-
     </div>
+    {% else %}
+    <div class="container-no-order">
+        <h2>Ainda não há pedidos</h2>
+    </div>
+    {% endif %}
 
 </main>
 

@@ -7,6 +7,25 @@ const btnCancel2 = document.querySelector('#btnCancel2');
 
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Verificar se o alerta já foi exibido anteriormente
+    const formSubmitted = localStorage.getItem("formSubmitted");
+    const alertSuccess = document.querySelector('#myalert');
+
+    if (formSubmitted === "true") {
+        alertSuccess.style.display = "block";
+
+        setTimeout(function () {
+            // Altere o estilo da div para torná-la invisível após 4 segundos
+            alertSuccess.style.display = "none";
+            // Defina o localStorage como "false" após 4 segundos
+            localStorage.setItem("formSubmitted", "false");
+        }, 4000); // 4000 milissegundos = 4 segundos
+    }
+});
+
+
+
 function editForm(index, event) {
     event.preventDefault();
 
@@ -56,8 +75,9 @@ btnForm2.addEventListener("click", function (event) {
 
 
 // Salvar Formulário
-function SaveForm(index, event) {
+function SaveForm(index) {
     let form, inputs, buttonContainer;
+    const alertSuccess = document.querySelector('#myalert');
 
     if (index === 1) {
         form = document.querySelector('#form1');
@@ -73,7 +93,8 @@ function SaveForm(index, event) {
         input.classList.remove("enabled-input");
     });
 
-    buttonContainer.style.display = "none";
+    // Defina o localStorage como "true" quando o formulário for salvo
+    localStorage.setItem("formSubmitted", "true");
 }
 
 btnSave1.addEventListener("click", function (event) {
@@ -110,7 +131,7 @@ btnSavePassword.addEventListener("click", function () {
     setTimeout(function () {
         // Reverte o texto do botão e habilita o botão
         btnSavePassword.textContent = "Salvo!";
-        
+
 
         // Oculta os spinners
         spinners.forEach(function (spinner) {
@@ -119,7 +140,7 @@ btnSavePassword.addEventListener("click", function () {
 
         // Exibe o alerta
         alertBox.style.display = 'flex';
-        
+
         // Aguarda mais 2 segundos (2000 milissegundos)
         setTimeout(function () {
             // Oculta o alerta

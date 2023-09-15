@@ -13,6 +13,7 @@
 {% block content %}
 
 <main class="container-main">
+
     <a class="btn-voltar" href="{% url 'home' %}">
         <i class="bi bi-arrow-left">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left"
@@ -21,8 +22,14 @@
                     d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
             </svg>
         </i>
-    </a>
 
+    </a>
+    <div id="myalert" style="display: none;" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Suas Alterações</strong> foram salvas com sucesso! .
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
 
 

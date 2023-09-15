@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.http import HttpResponse, JsonResponse
-from .models import Client, Address, Product, Order
+from .models import Client, Address, Product, Order, OrderItem
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,10 @@ from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt
 import json
 from datetime import date
+import random
+import smtplib
+from email.message import EmailMessage
+from decouple import config
 
 
 full_navbar = True
@@ -151,11 +155,12 @@ def procfile(request):
             state = request.POST.get("state")
             country = request.POST.get("country")
             complement = request.POST.get("complement")
+            address_complet = f"{street}, {number}, {district}, {city}, {state}, {country}, {complement}"
 
             # busca um objeto Address associado ao usuário
             address, created = Address.objects.get_or_create(user=user, defaults={'cep': cep,
                                                                                   'street': street, 'number': number, 'district': district, 'city': city,
-                                                                                  'state': state, 'country': country, 'complement': complement})
+                                                                                  'state': state, 'country': country, 'complement': complement, 'address_complet': address_complet})
 
             # Se o objeto já existia, atualiza seus valores
             if not created:
@@ -260,49 +265,62 @@ def add_cart(request):
             setnewOrder(response_data)
 
             if isPay:
+
+                user_id = request.user.id
+
+                # Gere um novo número de pedido (se necessário)
+                hash_order = random.randint(100000, 999999)
+                order_number = f'C{user_id}P{hash_order}'
+
+                # Obtenha uma instância válida do modelo User com base no ID
+                user = User.objects.get(pk=user_id)
+
+                # Crie uma nova ordem
+                new_order = Order.objects.create(
+                    user=user,
+                    status="aguardando_pagamento",
+                    order_number=order_number,
+                    client=user.client,
+                    address_client=user.address,
+                    total_value=0,  # Você pode definir o valor total como 0 inicialmente e atualizá-lo posteriormente
+                )
+
+                total_value = 0  # Inicialize o valor total do pedido como 0
+
                 for item in cart_result:
-                    product_name = item['name']
-                    product_id = Product.objects.get(id=item['id'])
+                    product_id = item['id']
                     total_units_sold = item['qtd']
                     total_amount = item['subtotal']
-                    user_id = request.user.id  # Obtenha o ID do usuário autenticado
+                    size = item['size']
 
                     try:
-                        # Obtenha uma instância válida do modelo User com base no ID
-                        user = User.objects.get(pk=user_id)
+                        product = Product.objects.get(pk=product_id)
 
-                        # Substitua 1 pelo ID do produto real que você deseja associar ao pedido
-                        product_id = 1
+                        # Crie um item de pedido associado a este pedido
+                        order_item = OrderItem.objects.create(
+                            order=new_order,
+                            product=product,
+                            unit_price=product.price,
+                            quantity=total_units_sold,
+                            subtotal=total_amount,
+                            size=size,
+                        )
 
-                        try:
-                            # Certifique-se de obter uma instância válida de Product
-                            product = Product.objects.get(pk=product_id)
+                        # Salve o item do pedido
+                        order_item.save()
 
-                            new_order = Order.objects.create(
-                                product_name=product_name,
-                                product_id=product,
-                                total_units_sold=total_units_sold,
-                                total_amount=total_amount,
-                                user=user,
-                            )
+                        # Atualize o valor total do pedido
+                        total_value += total_amount
 
-                            new_order.save()
-                            orderPlaced = True
+                    except Product.DoesNotExist:
 
-                        except Product.DoesNotExist:
-                            print(
-                                "O produto com o ID especificado não foi encontrado.")
+                        print("produto nao existe - ERRO")
 
-                        except User.DoesNotExist:
-                            print("O usuário autenticado não foi encontrado.")
+                # Atualize o valor total do pedido
+                new_order.total_value = total_value
+                new_order.save()
 
-                        except Exception as e:
-                            print(f"Ocorreu um erro: {str(e)}")
-                            return JsonResponse({'error': str(e)}, status=400)
-
-                    except Exception as e:
-                        print(f"Ocorreu um erro: {str(e)}")
-                        return JsonResponse({'error': str(e)})
+                orderPlaced = True
 
             # Adicione orderPlaced ao response_data
             response_data['orderPlaced'] = orderPlaced
@@ -311,11 +329,30 @@ def add_cart(request):
 
         except Exception as e:
             print(f"Ocorreu um erro: {str(e)}")
+
             return JsonResponse({'error': str(e)})
 
 
+@csrf_exempt
+def send_email(request):
+    print('teste')
+    return HttpResponseRedirect('/newOrder/')
+
+
 def orders(request):
-    return render(request, 'users/orders.html')
+    user_id = request.user
+    orders = Order.objects.filter(user=user_id)
+
+    context = {
+        'orders': orders,
+    }
+
+    for order in orders:
+        order.total_items = order.orderitem_set.count()
+        if order.total_items > 2:
+            order.extra_items = order.total_items - 2
+
+    return render(request, 'users/orders.html', context)
 
 
 def newOrder(request):
@@ -366,3 +403,98 @@ def checkout(request):
 
     elif request.method == 'POST':
         return redirect('newOrder')
+
+
+@csrf_exempt
+@login_required
+def update_data(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            user = request.user
+
+            # Verifique se o usuário está autenticado antes de salvar os dados
+            if user.is_authenticated:
+                # Obtenha os dados do form1
+                form1Data = data.get('form1Data', {})
+                # Obtenha os dados do form2
+                form2Data = data.get('form2Data', {})
+
+                update_or_create_address_and_user_data(
+                    user, form1Data, form2Data)
+                return JsonResponse(data)
+            else:
+                return JsonResponse({"error": "Usuário não autenticado"}, status=401)
+
+    except Exception as e:
+        print(f"Erro no servidor: {str(e)}")
+        return JsonResponse({"error": "Erro interno do servidor"}, status=500)
+
+
+def update_or_create_address_and_user_data(user, form1Data, form2Data):
+    # Verifique se o usuário já possui um registro de endereço
+    try:
+        address = Address.objects.get(user=user)
+    except Address.DoesNotExist:
+        address = None
+
+    try:
+        client = Client.objects.get(user=user)
+    except Client.DoesNotExist:
+        client = None
+
+    # Atualize os dados do usuário
+    if user.email != form1Data['email']:
+        user.email = form1Data['email']
+        user.save()
+
+    if user.first_name != form1Data['first_name']:
+        user.first_name = form1Data['first_name']
+        user.save()
+
+    if user.last_name != form1Data['last_name']:
+        user.last_name = form1Data['last_name']
+        user.save()
+
+    if client:
+        client.fullname = f"{form1Data['first_name']} {form1Data['last_name']}"
+        client.cpf = form1Data['cpf']
+        client.phone_number = form1Data['phone_number']
+
+    else:
+        client = Client.objects.create(
+            fullname=f"{form1Data['first_name']} {form1Data['last_name']}",
+            user=user,
+            cpf=form1Data['cpf'],
+            phone_number=form1Data['phone_number'],
+        )
+
+        client.save()
+
+    # Crie ou atualize o registro de endereço
+    if address:
+        # Atualize os campos existentes
+        address.cep = form2Data['cep']
+        address.street = form2Data['street']
+        address.number = form2Data['number']
+        address.district = form2Data['district']
+        address.city = form2Data['city']
+        address.state = form2Data['state']
+        address.country = form2Data['country']
+        address.complement = form2Data['complement']
+        address.save()
+    else:
+        # Crie um novo registro de endereço
+        address = Address.objects.create(
+            user=user,
+            cep=form2Data['cep'],
+            street=form2Data['street'],
+            number=form2Data['number'],
+            district=form2Data['district'],
+            city=form2Data['city'],
+            state=form2Data['state'],
+            country=form2Data['country'],
+            complement=form2Data['complement']
+        )
+
+        address.save()

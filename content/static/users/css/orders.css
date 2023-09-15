@@ -1,15 +1,46 @@
 h1 {
     font-size: 1.5rem;
     color: #404040b4;
-    margin: 1rem 15rem;
+    margin: 1rem 17.5rem;
     margin-top: 2rem;
 }
 
-.container-order {
-    width: 74.5%;
-    min-height: 500px;
-    background-color: #ffffff8c;
-    margin: auto;
-    border-radius: 5px;
+h2 {
+    color: #000000c0;
+}
 
+.container-no-order {
+    width: 70%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: 1px solid #dddada;
+    border-radius: 7px;
+}
+
+.container-order {
+    width: 70%;
+
+    margin: auto;
+    background-color: #fff;
+    border: 1px solid #dddada;
+    border-radius: 7px;
+}
+
+.info-product {
+    margin-left: 1.5rem;
+}
+
+.img-product-popup {
+    background-color: #f0f0f0;
+    color: #000;
+    border: none;
+    font-size: 1.1rem;
+    text-decoration: none !important;
+}
+
+.img-product-popup:hover {
+    background-color: #5b5a5a;
 }

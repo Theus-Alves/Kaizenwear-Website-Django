@@ -1,11 +1,8 @@
 <form id="myform" class="form-personal">
     <div class="form-group">
-
         <h6 class="mylabel" for="exampleInputEmail1">Informações de contato</h6>
-
         <label for="form1Example1">Endereço de e-mail</label>
-        <input type="email" id="form1Example1" class="form-control" name="email" value="{{ user.email }}"
-            name="email" />
+        <input type="email" id="form1Example1" class="form-control" name="email" value="{{ user.email }}" />
         <small id="emailHelp" class="form-text text-muted">Nunca vamos compartilhar seu email, com ninguém.</small>
     </div>
 
@@ -29,6 +26,5 @@
         <input type="text" class="form-control" id="inputtel" value="{{ client.phone_number }}" name="phone_number">
     </div>
 
-    <button onclick="nextContent(2)" type="button" class="mybtn btn btn-dark">PRÓXIMO</button>
-
+    <button name="check1" onclick="nextContent(2)" type="button" class="mybtn btn btn-dark">PRÓXIMO</button>
 </form>

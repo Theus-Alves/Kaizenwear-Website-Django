@@ -40,6 +40,7 @@ class Address(models.Model):
     state = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
     complement = models.CharField(max_length=50)
+    address_complet = models.CharField(max_length=200)
 
     def __str__(self):
         return f"{self.street}, {self.number}, {self.district}, {self.city}, {self.state}, {self.country}"
@@ -57,12 +58,33 @@ class Client(models.Model):
 
 
 class Order(models.Model):
-    product_name = models.CharField(max_length=100)
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    total_units_sold = models.IntegerField()
-    total_amount = models.FloatField()
-    order_date = models.DateField(auto_now_add=True)
+    STATUS_CHOICES = (
+        ('aguardando_pagamento', 'Aguardando pagamento'),
+        ('aguardando_entrega', 'Aguardando entrega'),
+        ('em_rota', 'Em rota'),
+        ('entregue', 'Entregue'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_order = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    order_number = models.CharField(max_length=20, unique=True)
+    items = models.ManyToManyField(Product, through='OrderItem')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    address_client = models.ForeignKey(Address, on_delete=models.CASCADE)
+    total_value = models.FloatField()
 
     def __str__(self):
-        return f"Pedido de {self.user} - {self.product_name}"
+        return f"Pedido de {self.user.client.fullname} - {self.order_number}"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    unit_price = models.FloatField()
+    quantity = models.PositiveIntegerField()
+    subtotal = models.FloatField()
+    size = models.CharField(max_length=2)
+
+    def __str__(self):
+        return f"{self.product.name} - Tamanho: {self.size}"
